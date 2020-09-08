@@ -52,9 +52,9 @@ async def event_friend_request(self, request):
 
 async def event_friend_add(self, friend):
     if friend is not None:
-        await friend.send(f'---\nHey @{friend.display_name}!\nThanks for adding my Bot! Join on my Discord: https://discord.gg/RVs9hvD For support, questions, etc.')
+        await friend.send(f'---\nHey @{friend.display_name}!\nThanks for adding my Bot!\nIf you want to support me for FREE:\n1) Follow me on TikTok: @ludoen,\n2) Follow me on Instagram: @sac_doener\n3 Join on my Discord-Server: https://discord.gg/RVs9hvD - For support, questions etc.')
     if friend is None:
-        await friend.send(f'---\nHey!\nThanks for adding my Bot! Join on my Discord: https://discord.gg/RVs9hvD For support, questions, etc.')
+        await friend.send(f'---\nHey!\nThanks for adding my Bot!\nIf you want to support me for FREE:\n1) Follow me on TikTok: @ludoen,\n2) Follow me on Instagram: @sac_doener\n3 Join on my Discord-Server: https://discord.gg/RVs9hvD - For support, questions etc.')
     try:
         await friend.invite()
     except: pass
