@@ -1,0 +1,21 @@
+{
+    "COSMETIC_SETTINGS": {
+        "OUTFIT": "CID_028_Athena_Commando_F",
+        "BACKPACK": "BID_138_Celestial",
+        "PICKAXE:": "Pickaxe_ID_013_Teslacoil",
+        "BANNER": "InfluencerBanner38",
+        "BANNER_COLOR": "black",
+        "LEVEL": "9999",
+        "BATTLEPASS_LEVEL": "9999",
+        "AVATAR": "CID_028_Athena_Commando_F",
+        "AVATAR_COLOR": ["#ffffff", "#ffffff", "#ffffff"]
+    },
+    "SETTINGS": {
+        "ACCEPT_FRIEND_REQUESTS": "true",
+        "SEND_FRIEND_REQUESTS": "true", 
+        "SEND_FRIEND_REQUESTS_ON_REMOVE": "true",
+        "SEND_FRIEND_REQUESTS_ON_DECLINE": "true",
+        "INVITE_ON_LEAVE": "true",
+        "OWNER_NAMES": ["cc doener"]
+    }
+}
