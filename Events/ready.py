@@ -28,12 +28,39 @@ import fortnitepy
 import asyncio
 import json
 
+
 with open("config.json", "r") as f:
     config = f.read()
     if not config or not config.startswith("{"):
         config = {}
     else:
         config = json.loads(config)
+
+
+async def check_party_validity(self):
+    while True:
+        try:
+            fixed = False
+            if self.party is None:
+                await self.initialize_party()
+                print(f'Initialized party of {self.display_name}.')
+                fixed = True
+            if self.party.member_count == 0:
+                await self.initialize_party()
+                print(f'Initialized party of {self.display_name}.')
+                fixed = True
+            if not fixed:
+                try:
+                    party_id = self.party.id
+                    party = await self.http.party_lookup(party_id)
+                except:
+                    await self.initialize_party()
+                    print(f'Initialized party of {self.display_name}.')
+
+        except:
+            pass
+        else:
+            await asyncio.sleep(60)
 
 async def event_ready(self):
     friends = self.friends
@@ -52,9 +79,8 @@ async def event_ready(self):
                 friends_online_count += 1
             except:
                 pass
-    await asyncio.sleep(0.3)
     await self.initialize_party()
-    await asyncio.sleep(0.3)
+    self.loop.create_task(check_party_validity(self))
     print(f'-----------------------\nClient ready as: {self.user.display_name}\nAccount-ID: {self.user.id}\n-----------------------\nFriends: {len(self.friends)}\nFriends online: {friends_online_count}\nAccepted friend-requests: {friends_accepted}\n-----------------------')
 
 async def event_close(self):
