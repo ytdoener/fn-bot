@@ -27,7 +27,13 @@ License: Apache 2.0
 import asyncio
 import fortnitepy
 import json
+import random
 import requests
+
+from typing import Tuple, Any, Union, Optional
+
+def get_random_chapter1_default_cid(self) -> str:
+    return random.choice(list(fortnitepy.DefaultCharactersChapter1)).name
 
 with open("config.json", "r") as f:
     config = f.read()
@@ -42,6 +48,13 @@ async def Command(self, message):
     split = args[1:]
     joinedArguments = " ".join(split)
 
+    if not self.has_friend(message.author.id):
+        try:
+            await self.add_friend(message.author.id)
+            await asyncio.sleep(0.5)
+        except:
+            pass
+                            
     if args[0] == '!promote':
         if not message.author.display_name in config["SETTINGS"]["OWNER_NAMES"]:
             await message.reply('You dont have the permissions to use this command.')
@@ -76,16 +89,12 @@ async def Command(self, message):
         playlist_upper = playlist
         playlist = playlist.lower()
         playlist = playlist.strip()
-
-        if not playlist:
-            await message.reply('---\nUsage: !playlist Arena')
-            playlist = None
-
         playlist_search = None
         for item in self.playlists:
             if (item["displayName"].lower().startswith(playlist.lower()) or item["id"].lower == playlist.lower()):
                 playlist_search = item
                 break
+
         if not playlist_search:
             await message.reply(f'Playlist {playlist_upper} was not found!')
             return
@@ -97,16 +106,12 @@ async def Command(self, message):
         skin_upper = skin
         skin = skin.lower()
         skin = skin.strip()
-
-        if not skin:
-            await message.reply('---\nUsage: !skin Renegade Raider')
-
-        skin = None
         skin_search = None
         for item in self.cosmetics:
             if (item["name"].lower().startswith(skin.lower()) or item["id"].lower == skin.lower()) and item["type"] == "outfit":
                 skin_search = item
                 break
+
         if not skin_search:
             await message.reply(f"Skin {skin_upper} was not found!")
             return
@@ -119,16 +124,12 @@ async def Command(self, message):
         emote_upper = emote
         emote = emote.lower()
         emote = emote.strip()
-
-        if not emote:
-            await message.reply('---\nUsage: !emote Floss')
-
-        emote = None
         emote_search = None
         for item in self.cosmetics:
             if (item["name"].lower().startswith(emote.lower()) or item["id"].lower == emote.lower()) and (item["type"] == "emote" or item["type"] == "emoji"):
                 emote_search = item
                 break
+
         if not emote_search:
             await message.reply(f"Emote {emote_upper} was not found!")
             return
@@ -149,16 +150,12 @@ async def Command(self, message):
         backpack_upper = backpack
         backpack = backpack.lower()
         backpack = backpack.strip()
-
-        if not backpack:
-            await message.reply('---\nUsage: !backpack Black Shield')
-
-        backpack = None
         backpack_search = None
         for item in self.cosmetics:
             if (item["name"].lower().startswith(backpack.lower()) or item["id"].lower == backpack.lower()) and item["type"] == "backpack":
                 backpack_search = item
                 break
+
         if not backpack_search:
             await message.reply(f"Backpack {backpack_upper} was not found!")
             return
@@ -171,11 +168,6 @@ async def Command(self, message):
         pickaxe_upper = pickaxe
         pickaxe = pickaxe.lower()
         pickaxe = pickaxe.strip()
-
-        if not pickaxe:
-            await message.reply('---\nUsage: !pickaxe Reaper')
-
-        pickaxe = None
         pickaxe_search = None
         for item in self.cosmetics:
             if (item["name"].lower().startswith(pickaxe.lower()) or item["id"].lower == pickaxe.lower()) and item["type"] == "pickaxe":
@@ -196,9 +188,8 @@ async def Command(self, message):
             try:
                 await message.reply('Leaving the party now..')
                 await self.party.me.set_emote("EID_Wave")
-                await asyncio.sleep(1.5)
+                await asyncio.sleep(1)
                 await self.initialize_party()
-                await message.reply('Left the party.')
             except:
                 pass    
 
@@ -211,7 +202,7 @@ async def Command(self, message):
             except: pass
         if not level.isnumeric():
             try:
-                await message.reply('An error has occured. The level needs to be a number!')
+                await message.reply('An error has occured. The level needs to be a positive (+) number!')
             except: pass
     
     if args[0] == '!stop' or args[0] == '!clear':
@@ -230,6 +221,50 @@ async def Command(self, message):
             await message.reply('Skin set to Skull Trooper with Purple Glow Variant!')
         except: pass
     
+    if args[0] == '!checkeredrenegade' or args[0] == '!renegade':
+        try:
+            await self.party.me.set_outfit("CID_028_Athena_Commando_F", variants=self.party.me.create_variants(material=2))
+            await message.reply('Skin set to Checkered Renegade!')
+        except: pass
+
+    if args[0] == '!hologram' or args[0] == '!holo':
+        try:
+            await self.party.me.set_outfit("CID_VIP_Athena_Commando_M_GalileoGondola_SG")
+            await message.reply('Skin set to Hologram (Star Wars)!')
+        except: pass
+
+    if args[0] == '!ironman' or args[0] == '!iron man':
+        try:
+            await self.party.me.set_outfit("CID_843_Athena_Commando_M_HightowerTomato_Casual", variants=self.party.me.create_variants(progressive=2))
+            await message.reply('Skin set to Iron Man!')
+        except: pass
+
+    if args[0] == '!hatlessrecon' or args[0] == '!reconexpert' or args[0] == '!nohatrecon':
+        try:
+            await self.party.me.set_outfit("CID_022_Athena_Commando_F", variants=self.party.me.create_variants(parts=2))
+            await message.reply('Skin set to Hatless Recon!')
+        except: pass
+
+    if args[0] == '!ninja':
+        try:
+            await self.party.me.set_outfit("CID_605_Athena_Commando_M_TourBus")
+            await message.reply('Skin set to Ninja!')
+        except: pass
+
+    if args[0] == '!invisible' or args[0] == '!invis':
+        try:
+            await self.party.me.set_outfit("CID_YoIWantToGetMyselfInvisibleSoJustIgnoreThisThankYou")
+            await message.reply('Successfully made myself INVISIBLE!')
+        except:
+            pass
+
+    if args[0] == '!visible':
+        try:
+            await self.party.me.set_outfit(f'{config["COSMETIC_SETTINGS"]["OUTFIT"]}')
+            await message.reply('Successfully made myself VISIBLE!')
+        except:
+            pass
+
     if args[0] == '!pinkghoul':
         try:
             await self.party.me.set_outfit("CID_029_Athena_Commando_F_Halloween", variants=self.party.me.create_variants(material=3))
