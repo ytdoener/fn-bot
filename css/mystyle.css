@@ -3,11 +3,32 @@ body {
   background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
 }
 
-#navbarSupportedContent {
-  text-align: center;
+.navbar.navbar-expand-sm.sticky-top.navbar-dark.info-color {
+  padding: 1%;
+  position: relative;
+  padding-right: 20%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-.navbar-nav {
-  border: 3px solid blue;
+.navbar-brand {
+  font-size: 2.5em;
+  margin-left: 10px;
+}
+
+.nav-item {
+  font-size: 1.5em;
+  padding: 7%;
+}
+
+.navbar-collapse {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+}
+
+#navbarSupportedContent {
+  text-align: center;
 }
 /*# sourceMappingURL=mystyle.css.map */
