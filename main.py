@@ -43,7 +43,6 @@ app = sanic.Sanic('')
 server = None
 
 update_check()
-requests.get(f"https://{os.environ['REPL_SLUG']}--{os.environ['REPL_OWNER']}.repl.co")
 
 @app.route('/')
 async def home(request):
