@@ -27,6 +27,7 @@ License: Apache 2.0
 import asyncio
 import aiohttp
 import aiofiles
+import requests
 
 from utils import update_check, config 
 
@@ -42,6 +43,7 @@ app = sanic.Sanic('')
 server = None
 
 update_check()
+requests.get(f"https://{os.environ['REPL_SLUG']}--{os.environ['REPL_OWNER']}.repl.co")
 
 @app.route('/')
 async def home(request):
