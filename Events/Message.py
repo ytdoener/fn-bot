@@ -28,7 +28,11 @@ import asyncio
 import fortnitepy
 import json
 import random
-import requests
+
+from fortnitepy import DefaultPartyMemberConfig
+
+import datetime
+from datetime import datetime
 
 from typing import Tuple, Any, Union, Optional
 
@@ -280,6 +284,7 @@ async def Command(self, message):
     if args[0] == '!sitout':
         try:
             await self.party.me.set_ready(fortnitepy.ReadyState.SITTING_OUT)
+            await message.reply('Sitting out now!')
         except: pass
 
     if args[0] == '!ready':
@@ -293,3 +298,29 @@ async def Command(self, message):
             await message.reply('Readiness set to UNREADY!')
             await self.party.me.set_ready(fortnitepy.ReadyState.NOT_READY)
         except: pass
+
+    if args[0] == '!match':
+        try:
+            time1 = datetime.datetime.utcnow()
+
+            await self.party.me.set_in_match(
+                players_left=100,
+                started_at=time1
+            )
+
+            while (100 >= self.party.me.match_players_left > 0 and self.party.me.in_match()):
+                await self.party.me.set_in_match(players_left=self.party.me.match_players_left - random.randint(3, 6), started_at=time1)
+                await asyncio.sleep(random.randint(30, 60))
+            await message.reply('Successfully joined a match.')
+        except:
+            pass
+
+    if args[0] == '!lobby':
+        try:
+            await self.party.me.clear_in_match()
+            await message.reply('Successfully left the match.')
+        except:
+            pass
+
+
+
